@@ -1,0 +1,12 @@
+{
+    "name": "romikring/rabox",
+    "description": "PHP library for Box Platform API version 2",
+    "authors": [
+        {
+            "name": "Roman Habrusionok",
+            "email": "romikring@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}
