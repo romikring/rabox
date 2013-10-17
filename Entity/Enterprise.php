@@ -4,9 +4,9 @@
  *
  * @author Roman Habrusionok <romikring@gmail.com>
  */
-namespace Box\Entity\Mini;
+namespace Box\Entity;
 
-class Enterprise extends AbstractMini
+class Enterprise
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ class Enterprise extends AbstractMini
      *
      * @param string $id ID
      *
-     * @return \Box\Entity\\Enterprise
+     * @return \Box\Entity\Enterprise
      */
     public function setId($id)
     {

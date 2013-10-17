@@ -6,7 +6,9 @@
  */
 namespace Box\Entity;
 
-class SharedLink extends AbstractEntity
+use Box\Entity\Incomplete\Entity;
+
+class SharedLink extends Entity
 {
     static public function convertToSharedLink($link)
     {

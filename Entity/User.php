@@ -7,11 +7,12 @@
 namespace Box\Entity;
 
 use Box\Container\Collection;
+use Box\Entity\Incomplete\Entity;
 
 /**
  * User class
  */
-class User extends AbstractEntity
+class User extends Entity
 {
     const ENTITY_TYPE = 'user';
 
@@ -120,9 +121,9 @@ class User extends AbstractEntity
      */
     protected $isExemptFromLoginVerification;
     /**
-     * Mini representation of this user's enterprise, including the ID of its enterprise
+     * The representation of this user's enterprise, including the ID of its enterprise
      *
-     * @var Mini\Enterprise
+     * @var Enterprise
      */
     protected $enterprise;
 
@@ -133,7 +134,7 @@ class User extends AbstractEntity
      *
      * @return User
      */
-    static public function convertToMiniUser($user)
+    static public function convertToUser($user)
     {
         return static::_convertToTarget($user);
     }
@@ -267,7 +268,7 @@ class User extends AbstractEntity
      */
     public function setEnterprise($enterprise)
     {
-        $this->enterprise = Mini\Enterprise::_convertToTarget($enterprise);
+        $this->enterprise = Enterprise::_convertToTarget($enterprise);
 
         return $this;
     }
@@ -275,7 +276,7 @@ class User extends AbstractEntity
     /**
      * Enterprise representation
      *
-     * @return Mini\Enterprise
+     * @return Enterprise
      */
     public function getEnterprise()
     {

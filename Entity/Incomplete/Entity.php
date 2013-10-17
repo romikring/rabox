@@ -4,9 +4,11 @@
  *
  * @author Roman Habrusionok <romikring@gmail.com>
  */
-namespace Box\Entity;
+namespace Box\Entity\Incomplete;
 
-abstract class AbstractEntity extends Mini\AbstractMini
+use Box\Exception;
+
+abstract class Entity
 {
     const ENTITY_TYPE = null;
 
@@ -22,6 +24,12 @@ abstract class AbstractEntity extends Mini\AbstractMini
      * @var \DateTime
      */
     protected $createdAt;
+    /**
+     * When this entity was last updated on the Box servers
+     *
+     * @var \DateTime
+     */
+    protected $modifiedAt;
     /**
      * Is this User instance mini object?
      *
@@ -118,9 +126,33 @@ abstract class AbstractEntity extends Mini\AbstractMini
      *
      * @return \DateTime
      */
-    public function getCreateAt()
+    public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Sets when this file was last updated on the Box servers
+     *
+     * @param mixed $timestamp Timestamp|DateTime object
+     *
+     * @return \Box\Entity\Incomplete\File
+     */
+    public function setModifiedAt($timestamp)
+    {
+        $this->modifiedAt = $this->_convertToDateTime($timestamp);
+
+        return $this;
+    }
+
+    /**
+     * Returns when this file was last updated on the Box servers
+     *
+     * @return \DateTime
+     */
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
     }
 
     /**
@@ -138,6 +170,52 @@ abstract class AbstractEntity extends Mini\AbstractMini
             return null;
         }
 
-        return \DateTime::createFromFormat(\DateTime::ISO8601, $timestamp);
+        return \DateTime::createFromFormat(\DateTime::ATOM, $timestamp);
+    }
+
+    /**
+     * Convert JSON string to target entity
+     *
+     * @param string $data JSON string
+     *
+     * @throws Box\Exception
+     *
+     * @return Entity
+     *
+     */
+    static protected function _convertToTarget($data)
+    {
+        if ($data instanceof Entity) {
+            return $data;
+
+        } else if (is_string($data)) {
+            $data = trim($data);
+
+            if ($data{0} === '{') {
+                // JSON string
+                if (false === ($obj = json_decode($data, true))) {
+                    throw new Exception(sprintf('Object "%s" couldn\'t be converted to Entity object', $data));
+                }
+                $data = $obj;
+            }
+        }
+        if (!is_array($data)) {
+                throw new Exception("Unknown object for convertation to User");
+        }
+
+        $entity = new static();
+
+        foreach ($data as $field => $value) {
+            $setter = 'set' . str_replace('_', '', ucfirst($field));
+            if (method_exists($entity, $setter)) {
+                $entity->$setter($value);
+            } else if ($field === 'type') {
+                continue;
+            } else {
+                throw new Exception(sprintf('Unknown method name "%s" in %s', $setter, get_class($entity)));
+            }
+        }
+
+        return $entity;
     }
 }

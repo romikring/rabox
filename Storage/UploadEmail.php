@@ -1,11 +1,11 @@
 <?php
 /**
- * Description of File
+ * Description of UploadEmail
  *
  * @author Roman Habrusionok <romikring@gmail.com>
  */
-namespace Box\Entity\Mini;
+namespace Box\Storage;
 
-class File
+class UploadEmail
 {
 }

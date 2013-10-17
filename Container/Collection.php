@@ -6,10 +6,10 @@
  */
 namespace Box\Container;
 
-class Collection extends ArrayObject
+class Collection extends \ArrayObject
 {
     static public function convertToCollection($collection)
     {
-        return array();
+        return new self();
     }
 }
