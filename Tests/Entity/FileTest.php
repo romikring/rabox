@@ -138,13 +138,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetContentCreatedAt()
     {
-        $date = $this->file->getCreatedAt();
+        $date = $this->file->getContentCreatedAt();
         $this->assertInstanceOf('\DateTime', $date);
 
-        $this->assertEquals($date->format(\DateTime::ATOM), "2012-12-12T10:55:30-08:00");
+        $this->assertEquals($date->format(\DateTime::ATOM), "2013-02-04T16:57:52-08:00");
 
-        $this->assertInstanceOf('Box\Entity\File', $this->file->setCreatedAt(NULL));
-        $this->assertEquals(NULL, $this->file->getCreatedAt());
+        $this->assertInstanceOf('Box\Entity\File', $this->file->setContentCreatedAt(NULL));
+        $this->assertEquals(NULL, $this->file->getContentCreatedAt());
     }
 
     /**

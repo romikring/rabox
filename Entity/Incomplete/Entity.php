@@ -11,6 +11,7 @@ use Box\Exception;
 abstract class Entity
 {
     const ENTITY_TYPE = null;
+    const ENTITY_URI = null;
 
     /**
      * A unique string identifying this entity

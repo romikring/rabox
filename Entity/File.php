@@ -13,7 +13,15 @@ use Box\Entity\Incomplete\File as IncompleteFile;
  */
 class File extends IncompleteFile
 {
+    /**
+     * Entity's type
+     */
     const ENTITY_TYPE = 'file';
+
+    /**
+     * Entity's URI part
+     */
+    const ENTITY_URI = 'files/';
 
     /**
      * The sha1 hash of this file
