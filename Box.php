@@ -6,31 +6,64 @@
  */
 namespace Box;
 
-use Box\Auth\Authorize;
+use Box\Auth\Interfaces\Auth as AuthInterface;
 
 /**
- *
+ * Box API entry point instance
  */
 class Box
 {
     /**
-     * Application key
+     * Auth instance
      *
-     * @var string
+     * @var Auth
      */
-    protected $apiKey;
+    protected $auth;
+    /**
+     * Options
+     *
+     * @var array
+     */
+    protected $options;
 
     /**
+     * The constructor
      *
-     * @param type $apiKey
+     * @param array $options Box options
      */
-    public function __construct($apiKey)
+    public function __construct(array $options = null)
     {
-        $this->apiKey = $apiKey;
+        $this->options = (null === $options) ? array() : $options;
     }
 
+    /**
+     * Returns is user authorized or not
+     *
+     * @return boolean
+     */
     public function isAuthorized()
     {
-        return $this->token->has();
+        return $this->getAuth()->isAuthenticated();
+    }
+
+    /**
+     * Returns Auth instance
+     *
+     * @return AuthInterface
+     */
+    public function getAuth()
+    {
+        if (!isset($this->auth)) {
+            $this->auth = new Auth($this->options);
+        }
+
+        return $this->auth;
+    }
+
+    public function setAuth(AuthInterface $auth)
+    {
+        $this->auth = $auth;
+
+        return $this;
     }
 }
