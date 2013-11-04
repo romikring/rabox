@@ -14,5 +14,5 @@ interface Token
     /**
      * Returns there is user's access token or not
      */
-    public function has();
+    public function isValid();
 }

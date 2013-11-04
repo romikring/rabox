@@ -171,6 +171,16 @@ class Auth implements AuthInterface
         return $this;
     }
 
+    public function getToken()
+    {
+        if (empty($this->token)) {
+            $this->token = new Auth\Token($this->clientId, $this->clientSecret);
+            $this->storage->set('token', $this->token);
+        }
+
+        return $this->token;
+    }
+
     /**
      * @todo Refresh token
      *
@@ -186,6 +196,18 @@ class Auth implements AuthInterface
         $this->token->refresh();
 
         return $this->token->isValid();
+    }
+
+    public function tokenize($code, $state)
+    {
+        if (!empty($code) || $state !== 'authenticated') {
+            return false;
+        }
+
+        $token = $this->getToken();
+        $token->clear();
+        $token->setCode($code);
+        $token->refresh();
     }
 
     protected function refresh()
